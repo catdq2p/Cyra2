@@ -1,6 +1,6 @@
-# Third-Party Risk Assessment Dashboard
+# TPCRA Risk Assessment Dashboard
 
-A Streamlit app that accepts an Excel questionnaire upload and renders a full interactive risk dashboard.
+Streamlit dashboard built specifically for the **TPCRA Questionnaire** Excel format.
 
 ## Repo structure
 
@@ -19,36 +19,29 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Opens at `http://localhost:8501`.
-
 ## Deploy to Streamlit Community Cloud
 
 1. Push this repo to GitHub.
 2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app**.
-3. Select your repo, branch `main`, main file `app.py`.
+3. Select repo, branch `main`, main file `app.py`.
 4. Click **Deploy**.
 
-## Excel format
+## Expected Excel format
 
-Your file needs these columns (names are flexible — the app auto-detects common variations):
+| Column | Description |
+|--------|-------------|
+| Col A  | Question key (`A`, `A.1`, `B.2.1`, …) |
+| Col B  | Question text / section heading |
+| Col C  | Response (`Yes` / `No` / `Partial` / `N/A`) |
 
-| Column     | Accepted names                                      | Required |
-|------------|-----------------------------------------------------|----------|
-| Category   | `Category`, `Domain`, `Area`, `Control Area`        | Yes      |
-| Risk       | `Risk`, `Description`, `Finding`, `Issue`           | Yes      |
-| Severity   | `Severity`, `Level`, `Risk Level`, `Rating`         | Yes      |
-| Vendor     | `Vendor`, `Company`, `Supplier`                     | Optional |
-| Questionnaire | `Questionnaire`, `Assessment`, `Framework`       | Optional |
+Section headers are single letters (`A`, `B`, … `L`).  
+The app auto-detects vendor name, rep name, and email from contact rows.
 
-Severity values must be **High**, **Medium**, or **Low** (case-insensitive).
+## Dashboard tabs
 
-Download the sample file from the sidebar inside the app for a ready-to-use template.
-
-## Features
-
-- Auto-detects column names — no renaming needed in most cases
-- Posture score calculated from weighted severity counts
-- Stacked bar chart by category (Plotly)
-- Donut chart for severity distribution
-- Filterable risk table by severity and category
-- Export filtered results as CSV or Excel
+| Tab | Contents |
+|-----|----------|
+| **Overview** | Stacked bar by section + donut chart + score bars |
+| **By section** | Per-section drill-down with individual question cards |
+| **Gap analysis** | All `No` and `Partial` responses flagged, exportable |
+| **All responses** | Full filterable table, exportable as CSV or Excel |
